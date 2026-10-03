@@ -1,0 +1,16 @@
+1=NetRevenue = SUM(Orders[SalesAmount]) - SUM(Orders[DiscountAmount])
+2=ActiveCustomer  = DISTINCTCOUNT(Orders[CustomerKey])
+3=Highvolumeorders  = CALCULATE(COUNTROWS(FILTER(Orders,Orders[OrderQuantity] >= 50)))
+4=Totalprofit  = SUMX(Orders,Orders[SalesAmount] - Orders[DiscountAmount] - RELATED(Products[StandardCost]) * Orders[OrderQuantity])
+5=CUSFLAG  =  IF(Customers[Region] = "North America" && Customers[CustomerSegment] = "Wholesale","Priority","Staderd")
+6= CATSALEDISTRIBUTION  = CALCULATE(SUM(Orders[SalesAmount]),ALL(Products))
+7=Average Daily Run Rate = AVERAGEX(VALUES('Date'[Date]),SUM(Orders[SalesAmount]))
+8=Categorylockedsales   = CALCULATE(SUM(Orders[SalesAmount]),Products[Category] = "Electronics")
+9=MULTPURACHSECUS  =COUNTROWS( FILTER(VALUES(Orders[CustomerKey]),CALCULATE(COUNT(Orders[OrderKey])) > 1))
+10=Month-over-Month Growth Percentage = VAR CURETYEAR  = CALCULATE(SUM(Orders[SalesAmount]))
+VAR PREVYEAR  = CALCULATE(SUM(Orders[SalesAmount]),DATEADD(Orders[OrderDate],-1,YEAR))
+RETURN
+DIVIDE(CURETYEAR - PREVYEAR,PREVYEAR)
+11=YEARTODATESAKE  =TOTALYTD(SUM(Orders[SalesAmount]),'Date'[Date])
+12=DYNAMICRANKNG  = RANKX(ALLSELECTED(Orders[CustomerKey]),sum(Orders[SalesAmount]),,desc,dense)
+13= 
